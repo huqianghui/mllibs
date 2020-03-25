@@ -1,12 +1,19 @@
 from pkg_resources import parse_version
-from configparser import ConfigParser
+
+try:
+    import configparser
+except:
+    from six.moves import configparser
+
 import setuptools
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
-config = ConfigParser(delimiters=['='])
+config = configparser.ConfigParser()
 config.read('settings.ini')
-cfg = config['DEFAULT']
+
+cfg = config.defaults()
+help(cfg)
 
 cfg_keys = 'version description keywords author author_email'.split()
 expected = cfg_keys + "lib_name user branch license status min_python audience language".split()
